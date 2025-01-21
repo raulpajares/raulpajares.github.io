@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bibliografía</title>
+    <meta name="author" content="Raúl Pajares"/>
+    <meta name="description" content="Explora los tipos de energías renovables y cómo se aplican en la actualidad" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../Archivos multimedia/favicon.ico" type="image/x-icon"/> 
+    <link rel="stylesheet" href="../CSS/estilos.css" />
+    <style>
+main{
+    padding-top: 7rem ;
+}
+
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="container logo-nav-container">
+            <a class="logo"><img src="../Archivos multimedia/Logo energía renovable header.png" alt="Logo" ></a>
+            <span class="menu-icon">☰</span>
+            <nav class="navigation">
+                <ul class="show">
+                    <li><a href="index.html">¿Qué son las energías renovables?</a></li>
+                    <li><a href="Energia Solar.html">Energía Solar</a></li>
+                    <li><a href="Energia Eolica.html">Energía Eólica</a></li>
+                    <li><a href="Energia Hidraulica.html">Energía Hidráulica</a></li>
+                    <li><a href="Bibliografia.html">Bibliografía</a></li>
+                    <li><a href="#">Geolocalización</a></li>
+                    <li><script src="https://static.elfsight.com/platform/platform.js" async></script>
+                        <div class="elfsight-app-c5c3e8c8-24db-4444-a86a-2131430db85d" data-elfsight-app-lazy></div></li>
+                        <li><div class="buttons">
+                            <button onclick="scrollToPreviousTitle()">Subir</button>
+                            <button onclick="scrollToNextTitle()">Bajar</button>
+                        </div></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="geo-container">
+        <h1>Detección de Geolocalización</h1>
+        <div id="posicion"></div>
+        <input type="button" value="Parar" onclick="detener();"/>
+        <p>Fuente: <a href="https://programandoointentandolo.com/2013/12/geolocalizacion-con-html5.html" target="_blank">Programando</a><br><a href="https://elfsight.com/es/weather-widget/">Tiempo</a></p>
+        </div>
+        <div id="titulo1">
+        <script src="https://static.elfsight.com/platform/platform.js" async></script>
+        <div class="elfsight-app-42b4e7cf-b0f6-40ba-a0d9-a3d81d4605df" data-elfsight-app-lazy></div>
+        </div>
+    </main>
+
+    <footer id="titulo2" class="footer">
+        <div class="container">
+            <p>Página diseñada por Raúl Pajares Leis</p>    
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+            // Índice de los títulos
+    const titles = ["titulo1", "titulo2"];
+    let currentTitleIndex = -1;
+
+    // Función para desplazarse al siguiente título (Bajar)
+    function scrollToNextTitle() {
+        currentTitleIndex = (currentTitleIndex + 1) % titles.length;
+        scrollToTitle(currentTitleIndex);
+    }
+
+    // Función para desplazarse al título anterior (Subir)
+    function scrollToPreviousTitle() {
+        if (currentTitleIndex === 0) {
+            // Si ya estamos en el primer título, desplazamos hasta arriba de la página
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth' 
+            });
+        } else {
+            // Si no estamos en el primer título, desplazamos al título anterior
+            currentTitleIndex = (currentTitleIndex - 1 + titles.length) % titles.length;
+            scrollToTitle(currentTitleIndex);
+        }
+    }
+
+    // Función que realiza el desplazamiento al título indicado
+    function scrollToTitle(index) {
+        const nextTitle = document.getElementById(titles[index]);
+        if (nextTitle) {
+            window.scrollTo({
+                top: nextTitle.offsetTop - 100, // Ajuste para la distancia del top
+                behavior: 'smooth' // Desplazamiento suave
+            });
+        }
+    }
+    
+        var watchId;    
+
+        if (navigator.geolocation) {
+            watchId = navigator.geolocation.watchPosition(mostrarPosicion, mostrarErrores, opciones);   
+        } else {
+            alert("Tu navegador no soporta la geolocalización, actualiza tu navegador.");
+        }
+
+        function mostrarPosicion(posicion) {
+            var latitud = posicion.coords.latitude;
+            var longitud = posicion.coords.longitude;
+            var precision = posicion.coords.accuracy;
+            var fecha = new Date(posicion.timestamp);
+            
+            $('#posicion').empty();
+            $('#posicion').append(`
+                <p>Latitud: ${latitud}</p>
+                <p>Longitud: ${longitud}</p>
+                <p>Precisión: ${precision} metros</p>
+                <p>Fecha: ${fecha}</p>
+            `);
+        }
+
+        function mostrarErrores(error) {
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    alert('Permiso denegado por el usuario'); 
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert('Posición no disponible');
+                    break; 
+                case error.TIMEOUT:
+                    alert('Tiempo de espera agotado');
+                    break;
+                default:
+                    alert('Error de Geolocalización desconocido :' + error.code);
+            }
+        }
+
+        var opciones = {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 1000
+        };
+
+        function detener() {
+            navigator.geolocation.clearWatch(watchId);
+        }
+    </script>
+
+</body>
+</html>
